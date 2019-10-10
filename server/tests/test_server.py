@@ -1,6 +1,2 @@
-from server.basic import APIServiceHandler
-import pytest
 
-
-class APIServiceHandlerTest():
-    pass
+import pytest_httpserver

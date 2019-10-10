@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Martin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="row" style="height: 100px"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <p>To test this application send a "POST" request to /sms with the following json structure of
+                            data</p>
+                        <code class="language-js" data-lang="js">
+                            <span class="p">{</span>
+
+                            "message": "Type your message here",
+                            "phone":'+254717436112, +254700000000'
+                            <span class="p">}</span>
+
+                        </code>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">Test the application</div>
+                    <div class="card-body">
+                        <form class="horizontal-form" onsubmit="return submit_data(event)">
+                            <div class="form-group">
+                                <label for="phone">phone(comma separated)</label>
+                                <textarea class="form-control" required="required" id="phone"
+                                    rows="3">+254717436112,</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea class="form-control" id="message" required="required"
+                                    rows="3">This is a test of functionality</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary right">submit</button>
+                            <div class="spinner-border" id="loading" style="width: 3rem; height: 3rem; display:none;"
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </form>
+                        <br>
+                        <div id="response" class="alert alert-primary ">Life is good</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script>
+        function submit_data(e) {
+            e.preventDefault();
+            var message = document.getElementById('message').value;
+            var phone = document.getElementById('phone').value;
+
+            post_data = {
+                message,
+                phone
+            }
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: '/sms',
+                data: JSON.stringify(post_data),
+                success: success,
+                error: errors,
+                dataType: 'json'
+            });
+
+            function success(data, status) {
+                $('#loading').hide();
+                $("#response").html(data.message);
+                $("#response").show()
+
+            }
+
+            function errors(response) {
+                $('#loading').hide();
+                console.log(response)
+                $("#response").html(response.responseJSON.message);
+                $("#response").show()
+            }
+        }
+        $("#response").hide()
+    </script>
+</body>
+
+</html>
