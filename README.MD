@@ -1,7 +1,9 @@
-# SMS Api for an Interview in Pure bricks Python
+# SMS Api with a websever in python
 
-1. Build a basic web server 
-2. Add an sms gateway(test sending message)
-3. Add a queing system
-4. Integrate all Modules
-5. Add Tests
+Instructions:
+Write a service that sends SMS to different service providers with the following assumptions:
+
+a. The messages are stored in a queue ready to be dispatched.
+
+b. All service providers have provided HTTP endpoints [1] and you should wrap the providers' API.
+
